@@ -1,0 +1,143 @@
+<!-- newsreader z filtrowaniem po słowach w treści -->
+<!-- strip-reader – zaciaga strony, czytamy w klarowniejszy sposob -->
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"> </script>
+  <script src="xml-json/xml2json.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css?family=Roboto|Rubik+Mono+One" rel="stylesheet">
+</head>
+<style>
+body {
+  background-color: white;
+  font-family: 'Roboto', sans-serif;
+}
+
+.container {
+  background-color: white;
+}
+#facet {
+  background-color: #f8B195;
+}
+h1 {
+  font-family: 'Rubik Mono One', sans-serif;
+}
+h2 {
+  color: #C06C84;
+}
+a {
+  color: #F67280;
+}
+a:hover {
+  color: #efd177;
+  -webkit-transition: 0.25s;
+}
+
+label {
+  padding-left: 10px;
+  font-family: 'Roboto', sans-serif;
+}
+
+input[type=text], select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 0px solid #ccc;
+    border-radius: 0px;
+    box-sizing: border-box;
+}
+
+input[type=radio] {
+    width: 5%;
+    border-radius: 50px;
+    background-color: #F67280;
+
+    color: #f8B195;
+
+}
+
+ul {
+  list-style-type: none;
+}
+
+ol {
+  list-style-type: none;
+}
+
+</style>
+
+<!-- #f8B195
+#F67280
+#C06C84
+#6C5B7B
+#355C7D -->
+<body>
+
+
+
+<div ng-app="one" ng-controller="reader" class="container narrow">
+  <div class="row">
+    <h1>.</h1>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 col-md-4" id="facet">
+      <h1>Quick//<br>Scan</h1><br>
+      <p>Keyword: <input type="text" ng-model="content"></p>
+      <p>Result limit: <input type="range" min='1' max='20' ng-model="limiter"></p>
+      <!-- <p><strong>Sources:</strong></p> -->
+      <!-- <ul id="sourceSelect">
+        <li><input type="radio" ng-model="selectSource" value="BBC_SE"><label>BBC: Science & Environment</label></li>
+        <li><input type="radio" ng-model="selectSource" value="TheVerge"><label>TheVerge</label></li>
+      </ul> -->
+    </div>
+    <div class="col-md-4">
+      <a ng-mouseover="shower = 'konik'">tutaj</a>
+      <button ng-mouseover="shower = 'konik'">Kliknij</button>
+      <p>{{ shower }}</p>
+    </div>
+
+
+
+<!-- https://docs.angularjs.org/api/ng/filter/filter --- obadac to!!! -->
+
+
+    <div class="col-md-4">
+      <p>{{ shower }}</p>
+    </div>
+    <div class="col-xs-12 col-md-4">
+
+      <h2>BBC: Science & Environment</h2>
+        <p ng-repeat="item in BBC_SE_results.rss.channel.item | filter : content | limitTo: limiter">
+            <!-- <a href="{{ item.link }}" ng-mouseover="shower = item.description" target="blank">{{ item.title }}</a> -->
+            <a ng-mouseover="shower = item.description">{{ item.title }}</a>
+        </p>
+    </div>
+
+    <div class="col-md-4">
+      <h2>The Verge</h2>
+        <p ng-repeat="item in TheVerge_results.feed.entry | filter : content | limitTo: limiter">
+          <a ng-click="shower = 'cośtam'">{{ item.title }}</a>
+          <p ng-mouseover="shower = 'dupa'"><u>{{ item.description }}</u></p>
+          <!-- <a href="{{ item.id }}" target="blank">{{ item.title }}</a> -->
+        </p>
+      <br><br>
+    </div>
+
+  </div>
+  <div class="row">
+    <p ng-mouseover="shower = 'cokolwiek'">Developed by jk</p>
+  <div>
+
+</div>
+
+<!--  zrobić z wybierania jakiś rodzaj inputu, może checkbox -->
+
+<script src="oneApp.js"></script>
+<script src="oneCtrl.js"></script>
+
+</body>
+</html>
